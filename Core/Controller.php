@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 class Controller
 {
     
-    public function render($view, $vars)
+    public static function render($view, $vars)
     {
     
         foreach($vars as $key => $value)
@@ -12,6 +12,13 @@ class Controller
             ${$key} = $value;
         }
         include BASEPATH . "App\\Views\\" . $view . ".php";
+
+    }
+
+    public static function Error404()
+    {
+        $title = "404 - Page Not Found";
+        include BASEPATH . "App\\Views\\404.php";
 
     }
 }

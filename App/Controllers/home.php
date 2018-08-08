@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 class HomeController extends Controller
 {
     
-    public function index()
+    public static function index()
     {
         $list = array( 
             'things' => array(
@@ -16,7 +16,7 @@ class HomeController extends Controller
             'title' => "Home title"
         );
 
-        $this->render("home", $list);
+        Parent::render("home", $list);
     }
 }
 

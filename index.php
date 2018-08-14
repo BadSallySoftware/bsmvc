@@ -8,6 +8,8 @@ include './Core/Controller.php';
 include './Core/Database.php';
 include './Core/Router.php';
 
+global $db;
+
 $db = new DatabaseConnection();
 
 $db->createTable("testTAble", array("name" => "varchar(255)", "age" => "int(11)"));

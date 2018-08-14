@@ -10,6 +10,11 @@ include "header.php";
 <?php endforeach ?>
 </ul>
 
+<form action="" method="POST" enctype="multipart/form-data">
+    <input type="file" name="upload"/>
+    <input type="submit" value="upload">
+</form>
+
 <?php 
 include "footer.php";
 ?>

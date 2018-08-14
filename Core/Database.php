@@ -17,14 +17,19 @@ class DatabaseConnection
         {
         
             $this->connection = new PDO($connString, $dbUser, $dbPassword);
-        
+            return true;
         }
         catch(PDOException $e)
         {
-        
-            echo "Error: " . $e->getMessage() . "<br/>";
-        
+            $this->error = $e->getMesage();        
+            return false;
         }
+    }
+
+
+    public function error()
+    {
+        return $this->error;
     }
 
 
@@ -54,6 +59,26 @@ class DatabaseConnection
        
        
     }
+
+    public function query($sql)
+    {
+        $this->connect();
+
+        try{
+            $stmt = $this->connection->prepare($sql);
+            
+             $stmt->execute();
+            return $stmt->fetchAll();
+        }catch(PDOException $e)
+        {
+            $this->error = $e->getMessage();
+            return false;
+        }
+
+        $this->disconnect();
+    }
+
+
     public function disconnect()
     {
         $this->statement = null;

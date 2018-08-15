@@ -9,19 +9,31 @@ class HomeController extends Controller
     {
         if($_SERVER['REQUEST_METHOD'] == "POST")
         {
-            // echo "<pre>";
-            // var_dump($_FILES);
-            // echo "</pre>";
+
+           // $donations = json_decode(file_get_contents("https://extralife.donordrive.com/api/participants/301630/donations"));
+
             $donations = array();
+
             $file = fopen($_FILES['upload']['tmp_name'], "r");
+            for($i = 0; $i < 4; ++$i)
+            {
+                $line = fgets($file);
+            }
             while($line = fgets($file))
             {
                 $lineArray = explode(",", $line);
-                array_push($donations,$lineArray);
+
+                $donation = array(
+                    "name" => $lineArray[0],
+                    "email" => $lineArray[1],
+                    "datetime" => $lineArray[2],
+                    "message" => $lineArray[3],
+                    "amount" => $lineArray[4]
+                );
+                array_push($donations,$donation);
             }
-             
-            $data = str_getcsv($raw, ',');
-                        echo "<pre>";
+
+            echo "<pre>";
             var_dump($donations);
             echo "</pre>";
         }

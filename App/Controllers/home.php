@@ -12,17 +12,13 @@ class HomeController extends Controller
 
            // $donations = json_decode(file_get_contents("https://extralife.donordrive.com/api/participants/301630/donations"));
 
-            $donations = array();
-
-            $file = fopen($_FILES['upload']['tmp_name'], "r");
-            for($i = 0; $i < 4; ++$i)
-            {
-                $line = fgets($file);
-            }
-            while($line = fgets($file))
-            {
-                $lineArray = explode(",", $line);
-
+           $donations = array();
+            
+             $file = fopen($_FILES['upload']['tmp_name'], "r");
+            
+             while(!feof($file))
+             {
+                 $lineArray = fgetcsv($file);
                 $donation = array(
                     "name" => $lineArray[0],
                     "email" => $lineArray[1],
@@ -32,10 +28,31 @@ class HomeController extends Controller
                 );
                 array_push($donations,$donation);
             }
+              
 
-            echo "<pre>";
-            var_dump($donations);
-            echo "</pre>";
+             // for($i = 0; $i < 4; ++$i)
+            // {
+            //     $line = fgets($file);
+            // }
+            // while($line = fgets($file))
+            // {
+            //     $lineArray = explode(",", $line);
+            
+                
+        
+
+            include BASEPATH . "App\\Models\\donations.php";
+            // echo "<pre>";
+            // var_dump($donations);
+            // echo "</pre>";
+            // die;
+            $donModel = new DonationsModel();
+
+            if(!$donModel->updateDonations($donations))
+            {
+                echo $donModel->error();
+            }
+
         }
         global $db;
         $result = $db->query("SELECT * FROM `testtable`");
